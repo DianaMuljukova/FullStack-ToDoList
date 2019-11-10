@@ -14,14 +14,14 @@ function App() {
             <Navbar color="light" light expand="md">
                 <Nav className="ml-auto" navbar>
                     <NavItem>
-                        <NavLink>
+
                             <RouterLink to="/users">Пользователи</RouterLink>
-                        </NavLink>
+
                     </NavItem>
                     <NavItem>
-                        <NavLink>
+
                             <RouterLink to="/users/create">Добавить пользователя</RouterLink>
-                        </NavLink>
+
                     </NavItem>
                 </Nav>
             </Navbar>

@@ -6,19 +6,28 @@ class UserCreate extends Component {
         super(props);
         this.state = {
             name: '',
-            email: ''
+            email: '',
+            file: null
         }
     }
 
     createUser = async (e) => {
         const {name, email} = this.state;
-        await fetch('http://localhost:3000/users/create', {
+        let response = await fetch('http://localhost:3000/users/create', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({name: name, email: email})
+        });
+        let result = await response.json();
+        let userId = result.id;
+        let data = new FormData();
+        data.append('file', this.state.file);
+        response = await fetch('http://localhost:3000/users/file/upload/' + userId, {
+            method: 'POST',
+            body: data
         })
     };
 
@@ -28,7 +37,14 @@ class UserCreate extends Component {
         })
     };
 
+    inputFile = e => {
+        this.setState({
+            file: e.target.files[0]
+        })
+    };
+
     render() {
+        console.log(this.state.file);
         return (
             <div>
                 <h1>Добавить пользователя</h1>
@@ -42,6 +58,7 @@ class UserCreate extends Component {
                         <Input onChange={this.inputChange} type="email" name="email" id="exampleEmail" placeholder="Email" value={this.state.email} />
                     </FormGroup>
                     <Button onClick={this.createUser}>Создать</Button>
+                    <Input placeholder="file" type="file" onChange={this.inputFile} />
                 </Form>
             </div>
         )
